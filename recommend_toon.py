@@ -31,9 +31,9 @@ def recommend(input_toon, matrix, n, similar_genre=True):
         if str(cor)=='None':
            continue
         else:
-            result.append((no, '{:.2f}'.format(cor)))
+            result.append((no, float('{:.2f}'.format(cor))))            #float()을 이용하면 문자를 숫자로 인식해서 음수인 경우도 제대로 정렬 됨.
 
-    result.sort(key=lambda r: r[1], reverse=True)                   #음수일 경우 정렬 반대로 해야 함.추후 확인.
+    result.sort(key=lambda r: r[1], reverse=True)    
 
     return result[:n]
 
@@ -70,12 +70,11 @@ try:
         matrix = data.pivot_table(index='u_no', columns='w_no', values='c_rating')          #매트릭스에 빈 컬럼(단 한명도 평점을 주지 않았을 경우)은 포함되지 않음.
 
         recomment_result = recommend(w_no_args, matrix, 5, similar_genre=True)
+        #recomment_result = recommend(5, matrix, 5, similar_genre=True)
 
         result = pd.DataFrame(recomment_result, columns=['w_no','Correlation'])
 
         #print(recomment_result)
-
-
         #print(result)
 
 finally:
